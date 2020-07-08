@@ -52,8 +52,8 @@ for i in range(total_mentors):
     time_availability = combine_timezone[timezone_mentor[0]]
     probability_time = np.array(time_availability)/sum(np.array(time_availability))
     choice_one_time = np.random.choice([m for m in range(len(time_availability))],group_number,p=probability_time)
-    hash = uuid.uuid4()
     for j in range(group_number[0]):
+        hash = uuid.uuid4()
         matrix_single_time_slot = np.zeros(len(time_availability))
         matrix_single_time_slot[choice_one_time[j]] = 1.0
         row = {'Group_name':cum, 'Type': 'Mentor', 'Timezone': timezone_mentor[0]}

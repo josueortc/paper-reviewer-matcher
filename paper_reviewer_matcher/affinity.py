@@ -177,6 +177,8 @@ def affinity_time(students, mentors):
     """
     n_students = len(students)
     A = np.inner(students, mentors)
-    A = (0.5 * A - A.mean() + 3) ** 2
+    idx = numpy.where(A == 0)
+    A = -(A - 7) ** 2 + 5
+    A[idx] = -1000
 
     return A
