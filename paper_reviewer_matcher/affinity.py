@@ -9,7 +9,7 @@ from sklearn.metrics.pairwise import euclidean_distances, cosine_distances
 
 __all__ = ["affinity_computation",
            "create_lp_matrix",
-           "create_assignment"]
+           "create_assignment", "affinity_time"]
 
 def affinity_computation(papers, reviewers,
                          weighting='tfidf',
@@ -155,3 +155,28 @@ def create_assignment(x_sol, A):
     b = np.zeros((n_papers, n_reviewers))
     b[i[t], j[t]] = 1
     return b
+
+def affinity_time(students, mentors):
+    """
+    Create affinity matrix (or distance matrix)
+    from given list of papers' abstract and reviewers' abstract
+
+    Parameters
+    ----------
+    papers: list, list of string (incoming paper for the conference)
+    reviewers: list, list of string from reviewers (e.g. paper that they prefer)
+    weighting: str, weighting scheme for count vector matrix
+        this can be ('count', 'tfidf', 'entropy', 'bm25')
+    projection: str, either 'svd' or 'pca' for topic modeling
+    distance: str, either 'euclidean' or 'cosine' distance
+
+
+    Returns
+    -------
+    A: ndarray, affinity array from given papers and reviewers
+    """
+    n_students = len(students)
+    A = np.inner(students, mentors)
+    A = (0.5 * A - A.mean() + 3) ** 2
+
+    return A
